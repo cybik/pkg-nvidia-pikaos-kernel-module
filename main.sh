@@ -1,13 +1,13 @@
 #! /bin/bash
 DRIVER=535
 
+chmod +x ./nvidia-pikaos-kernel-module/get_pwd.sh
+
 echo "$(apt-cache show nvidia-driver-$DRIVER | grep Version: | head -n1 | cut -f2 -d":" | cut -f1,2,3 -d"." | cut -f1 -d"-" | tr -d ' ')" > ./nvidia-pikaos-kernel-module/DRIVER
 echo "$(apt-cache show kernel-pika | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./nvidia-pikaos-kernel-module/KERNEL
 echo "$(apt-cache show nvidia-dkms-535 | grep Version: | head -n1 | cut -f2 -d":" | tr -d ' ')" > ./nvidia-pikaos-kernel-module/DRIVER_VERSION
 
 cd ./nvidia-pikaos-kernel-module
-
-chmod +x ./nvidia-pikaos-kernel-module/get_pwd.sh
 
 echo -e "nvidia-pikaos-kernel-module ($(cat ./DRIVER)-$(cat ./KERNEL)-99pika1.lunar) lunar; urgency=medium\n\n  * New Release\n\n -- Ward Nakchbandi <hotrod.master@hotmail.com> Sat, 01 Oct 2022 14:50:00 +0200" > debian/changelog
 
