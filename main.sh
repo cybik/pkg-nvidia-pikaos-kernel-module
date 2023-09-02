@@ -25,7 +25,10 @@ apt download nvidia-dkms-$DRIVER -y
 dpkg-deb -x ./nvidia-dkms-$DRIVER*.deb /
 
 # Build package
-dpkg-buildpackage --no-sign 
+dpkg-buildpackage --no-sign
+echo 'DKMS MAKEFILE LOG:'
+apt install -y tree 
+tree
 
 # Move the debs to output
 cd ../
