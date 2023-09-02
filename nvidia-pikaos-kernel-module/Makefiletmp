@@ -6,6 +6,6 @@ all:
 	true
 
 install:
-		fakeroot dkms build --dkmstree "${MK_WORKDIR}" -m nvidia/"${DRIVER}" -k "${KERNEL}"
+		dkms build --dkmstree "${MK_WORKDIR}" -m nvidia/"${DRIVER}" -k "${KERNEL}"
 		install -Dt "$(DESTDIR)/usr/lib/modules/"${KERNEL}"/extramodules" -m644 nvidia/"${DRIVER}"/"${KERNEL}"/"${CARCH}"/module/*
 		find "$(DESTDIR)" -name '*.ko' -exec xz -T1 {} +
