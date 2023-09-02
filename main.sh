@@ -27,9 +27,7 @@ dpkg-deb -x ./nvidia-dkms-$DRIVER*.deb /
 # Build package
 dpkg-buildpackage --no-sign
 echo 'DKMS MAKEFILE LOG:'
-apt install -y tree 
-tree
-
+cat ./nvidia/$(cat ./DRIVER)/$(cat ./KERNEL)/x86_64/log/make.log || cat ./nvidia/$(cat ./DRIVER)/build/make.log
 # Move the debs to output
 cd ../
 mkdir -p ./output
