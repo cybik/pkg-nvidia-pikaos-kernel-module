@@ -21,8 +21,10 @@ DEBIAN_FRONTEND=noninteractive
 
 # Get build deps
 apt-get build-dep ./ -y
-apt download nvidia-dkms-$DRIVER -y
-dpkg-deb -x ./nvidia-dkms-$DRIVER*.deb /
+#apt download nvidia-dkms-$DRIVER -y
+#dpkg-deb -x ./nvidia-dkms-$DRIVER*.deb /
+wget http://developer.download.nvidia.com/compute/cuda/repos/debian11/x86_64/nvidia-kernel-dkms_535.104.05-1_amd64.deb
+dpkg-deb -x ./nvidia-kernel-dkms_535.104.05-1_amd64.deb /
 
 # Build package
 dpkg-buildpackage --no-sign
