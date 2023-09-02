@@ -23,6 +23,8 @@ DEBIAN_FRONTEND=noninteractive
 apt-get build-dep ./ -y
 apt download nvidia-kernel-source-$DRIVER -y
 dpkg-deb -x ./nvidia-kernel-source-$DRIVER*.deb /
+apt download nvidia-dkms-$DRIVER -y
+dpkg-deb -x ./nvidia-dkms-$DRIVER*.deb /
 
 # Build package
 dpkg-buildpackage --no-sign
