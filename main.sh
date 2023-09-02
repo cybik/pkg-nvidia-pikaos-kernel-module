@@ -25,7 +25,7 @@ apt download nvidia-dkms-$DRIVER -y
 dpkg-deb -x ./nvidia-dkms-$DRIVER*.deb /
 
 # Build package
-dpkg-buildpackage --no-sign
+dpkg-buildpackage --no-sign || cat ./nvidia/$(cat ./DRIVER)/$(cat ./KERNEL)/x86_64/log/make.log && exit 100
 
 # Move the debs to output
 cd ../
