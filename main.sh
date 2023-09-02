@@ -13,7 +13,7 @@ echo -e "nvidia-pikaos-kernel-module ($(cat ./DRIVER)-$(cat ./KERNEL)-99pika5.lu
 
 echo -e "Source: nvidia-pikaos-kernel-module\nSection: graphics\nPriority: optional\nMaintainer: Ward Nakchbandi <hotrod.master@hotmail.com>\nStandards-Version: 4.6.1\nBuild-Depends: debhelper-compat (= 13), linux-image-$(cat ./KERNEL), linux-headers-$(cat ./KERNEL), dkms, fakeroot\nRules-Requires-Root: no\n\nPackage: nvidia-$(cat ./KERNEL)-module-$DRIVER\nArchitecture: linux-any\nDepends: linux-image-$(cat ./KERNEL), linux-headers-$(cat ./KERNEL), $(apt-cache show nvidia-dkms-$DRIVER | grep Depends: | head -n1 | cut -f2 -d":")\nConflicts: nvidia-dkms-$DRIVER (= $(cat DRIVER_VERSION))\nProvides: nvidia-dkms-$DRIVER (= $(cat DRIVER_VERSION))\nReplaces: nvidia-dkms-$DRIVER (= $(cat DRIVER_VERSION))\nDescription: Prebuilt Nvidia module for PikaOS kernel\n\nPackage: nvidia-pika-kernel-module-$DRIVER\nArchitecture: linux-any
 Depends: nvidia-$(cat ./KERNEL)-module-$DRIVER $(echo '(= ${binary:Version})')\nDescription: DKMS NVIDIA PLACEHOLDER" > ./debian/control
-
+echo -e "usr\netc" > ./debian/nvidia-$(cat ./KERNEL)-module-$DRIVER.install
 
 echo -e "DRIVER=$(cat ./DRIVER)\nKERNEL=$(cat ./KERNEL)\nVERSION=$(cat ./DRIVER_VERSION)\nMK_WORKDIR=$(env | grep -w "PWD" | cut -c5-)\nCARCH=x86_64" > ./Makefile
 cat ./Makefiletmp >> ./Makefile
