@@ -5,7 +5,7 @@ chmod +x ./nvidia-pikaos-kernel-module/get_pwd.sh
 
 echo "$(apt-cache show nvidia-driver-$DRIVER | grep Version: | head -n1 | cut -f2 -d":" | cut -f1,2,3 -d"." | cut -f1 -d"-" | tr -d ' ')" > ./nvidia-pikaos-kernel-module/DRIVER
 echo "$(apt-cache show kernel-pika | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./nvidia-pikaos-kernel-module/KERNEL
-echo "$(apt-cache show nvidia-kernel-source-535 | grep Version: | head -n1 | cut -f2 -d":" | tr -d ' ')" > ./nvidia-pikaos-kernel-module/DRIVER_VERSION
+echo "$(apt-cache show nvidia-kernel-source-$DRIVER | grep Version: | head -n1 | cut -f2 -d":" | tr -d ' ')" > ./nvidia-pikaos-kernel-module/DRIVER_VERSION
 
 cd ./nvidia-pikaos-kernel-module
 
