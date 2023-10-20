@@ -1,6 +1,9 @@
 #! /bin/bash
 DRIVER=535
 
+echo 'Package: *' > /etc/apt/preferences.d/0-a
+echo 'Pin: release c=main' >> /etc/apt/preferences.d/0-a
+echo 'Pin-Priority: 450' >> /etc/apt/preferences.d/0-a
 apt update -y
 
 chmod +x ./linux-nvidia-modules/get_pwd.sh
