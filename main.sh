@@ -1,5 +1,5 @@
 #! /bin/bash
-DRIVER=535
+DRIVER=545
 
 echo 'Package: *' > /etc/apt/preferences.d/0-a
 echo 'Pin: release c=main' >> /etc/apt/preferences.d/0-a
