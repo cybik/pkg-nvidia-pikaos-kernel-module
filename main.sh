@@ -20,6 +20,8 @@ echo -e "Source: linux-nvidia-modules\nSection: graphics\nPriority: optional\nMa
 echo -e "usr\netc" > ./debian/linux-modules-nvidia-$DRIVER-$(cat ./KERNEL).install
 
 echo -e "DRIVER=$(cat ./DRIVER)\nKERNEL=$(cat ./KERNEL)\nVERSION=$(cat ./DRIVER_VERSION)\nMK_WORKDIR=$(env | grep -w "PWD" | cut -c5-)\nCARCH=x86_64" > ./Makefile
+echo "cp -vf /usr/lib/pika/nvidia-$(cat ./DRIVER)-$(cat ./KERNEL)/blacklist-pika-nouveau.conf /etc/modprobe.d/blacklist-pika-nouveau.conf" >> ./linux-nvidia-modules/debian/postinst
+echo "cp -vf /usr/lib/pika/nvidia-$(cat ./DRIVER)-$(cat ./KERNEL)/pika-nvidia.conf /etc/modules-load.d/pika-nvidia.conf" >> ./linux-nvidia-modules/debian/postinst
 cat ./Makefiletmp >> ./Makefile
 
 DEBIAN_FRONTEND=noninteractive
