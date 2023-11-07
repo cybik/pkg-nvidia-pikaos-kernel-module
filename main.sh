@@ -3,7 +3,10 @@ DRIVER=545
 
 echo 'Package: *' > /etc/apt/preferences.d/0-a
 echo 'Pin: release c=main' >> /etc/apt/preferences.d/0-a
-echo 'Pin-Priority: 450' >> /etc/apt/preferences.d/0-a
+echo 'Pin-Priority: 400' >> /etc/apt/preferences.d/0-a
+echo 'Package: *' > /etc/apt/preferences.d/0-b
+echo 'Pin: release c=ubuntu' >> /etc/apt/preferences.d/0-b
+echo 'Pin-Priority: 400' >> /etc/apt/preferences.d/0-b
 apt update -y
 
 echo "cp -vf /usr/lib/pika/nvidia-$(cat ./DRIVER)-$(cat ./KERNEL)/blacklist-pika-nouveau.conf /etc/modprobe.d/blacklist-pika-nouveau.conf" >> ./linux-nvidia-modules/debian/postinst
