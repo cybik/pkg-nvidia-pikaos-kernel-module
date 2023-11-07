@@ -6,7 +6,8 @@ echo 'Pin: release c=main' >> /etc/apt/preferences.d/0-a
 echo 'Pin-Priority: 450' >> /etc/apt/preferences.d/0-a
 apt update -y
 
-chmod +x ./linux-nvidia-modules/get_pwd.sh
+echo "cp -vf /usr/lib/pika/nvidia-$(cat ./DRIVER)-$(cat ./KERNEL)/blacklist-pika-nouveau.conf /etc/modprobe.d/blacklist-pika-nouveau.conf" >> ./linux-nvidia-modules/debian/postinst
+echo "cp -vf /usr/lib/pika/nvidia-$(cat ./DRIVER)-$(cat ./KERNEL)/pika-nvidia.conf /etc/modules-load.d/pika-nvidia.conf" >> ./linux-nvidia-modules/debian/postinst
 
 echo "$(apt-cache show nvidia-driver-$DRIVER | grep Version: | head -n1 | cut -f2 -d":" | cut -f1,2,3 -d"." | cut -f1 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/DRIVER
 echo "$(apt-cache show kernel-pika | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/KERNEL
@@ -20,8 +21,6 @@ echo -e "Source: linux-nvidia-modules\nSection: graphics\nPriority: optional\nMa
 echo -e "usr\netc" > ./debian/linux-modules-nvidia-$DRIVER-$(cat ./KERNEL).install
 
 echo -e "DRIVER=$(cat ./DRIVER)\nKERNEL=$(cat ./KERNEL)\nVERSION=$(cat ./DRIVER_VERSION)\nMK_WORKDIR=$(env | grep -w "PWD" | cut -c5-)\nCARCH=x86_64" > ./Makefile
-echo "cp -vf /usr/lib/pika/nvidia-$(cat ./DRIVER)-$(cat ./KERNEL)/blacklist-pika-nouveau.conf /etc/modprobe.d/blacklist-pika-nouveau.conf" >> ./linux-nvidia-modules/debian/postinst
-echo "cp -vf /usr/lib/pika/nvidia-$(cat ./DRIVER)-$(cat ./KERNEL)/pika-nvidia.conf /etc/modules-load.d/pika-nvidia.conf" >> ./linux-nvidia-modules/debian/postinst
 cat ./Makefiletmp >> ./Makefile
 
 DEBIAN_FRONTEND=noninteractive
