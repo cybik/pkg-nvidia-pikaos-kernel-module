@@ -1,3 +1,3 @@
 #! /bin/sh
-depmod
+depmod || echo "depmod: failed please investigate!"
 update-initramfs -c -k all
