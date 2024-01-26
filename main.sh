@@ -10,7 +10,7 @@ echo 'Pin-Priority: 400' >> /etc/apt/preferences.d/0-b
 apt update -y
 
 echo "$(apt-cache show nvidia-driver-$DRIVER | grep Version: | head -n1 | cut -f2 -d":" | cut -f1,2,3 -d"." | cut -f1 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/DRIVER
-echo "$(apt-cache show kernel-pika-nvidia | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/KERNEL
+echo "$(apt-cache show kernel-pika | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/KERNEL
 echo "$(apt-cache show nvidia-kernel-source-$DRIVER | grep Version: | head -n1 | cut -f2 -d":" | tr -d ' ')" > ./linux-nvidia-modules/DRIVER_VERSION
 
 cd ./linux-nvidia-modules
