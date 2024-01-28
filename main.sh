@@ -17,6 +17,8 @@ cd ./linux-nvidia-modules
 
 VERSION="$(cat ./DRIVER)-$(cat ./KERNEL)-100pika5"
 
+echo -e "linux-nvidia-modules ("$VERSION") pikauwu; urgency=medium\n\n  * New Release\n\n -- Ward Nakchbandi <hotrod.master@hotmail.com> Sat, 01 Oct 2022 14:50:00 +0200" > debian/changelog
+
 if echo $VERSION | grep $(cat ./DRIVER_PIKA)
 then
   echo "Driver up to date"
