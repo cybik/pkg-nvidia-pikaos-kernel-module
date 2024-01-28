@@ -24,7 +24,7 @@ VERSION="$(cat ./DRIVER)-$(cat ./KERNEL)-100pika5"
 
 echo -e "linux-nvidia-modules ("$VERSION") pikauwu; urgency=medium\n\n  * New Release\n\n -- Ward Nakchbandi <hotrod.master@hotmail.com> Sat, 01 Oct 2022 14:50:00 +0200" > debian/changelog
 
-if echo $VERSION | grep -v "$(cat ./pika_nvidia.txt)"
+if echo $VERSION | grep "$(cat ./pika_nvidia.txt)"
 then
   echo "driver already built"
   exit 0
