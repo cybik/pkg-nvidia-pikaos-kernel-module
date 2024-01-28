@@ -3,7 +3,7 @@ DRIVER=545
 
 echo 'Package: *' > /etc/apt/preferences.d/0-a
 echo 'Pin: release c=main' >> /etc/apt/preferences.d/0-a
-echo 'Pin-Priority: 400' >> /etc/apt/preferences.d/0-a
+echo 'Pin-Priority: 390' >> /etc/apt/preferences.d/0-a
 echo 'Package: *' >> /etc/apt/preferences.d/0-a
 echo 'Pin: release c=external' >> /etc/apt/preferences.d/0-a
 echo 'Pin-Priority: 390' >> /etc/apt/preferences.d/0-a
