@@ -32,6 +32,7 @@ fi
 
 
 if cat ./pika_nvidia.txt | grep "$(cat ./new_nvidia.txt)"
+then
   echo "driver up to date"
   exit 0
 fi
