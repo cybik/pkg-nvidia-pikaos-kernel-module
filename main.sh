@@ -4,9 +4,12 @@ DRIVER=545
 echo 'Package: *' > /etc/apt/preferences.d/0-a
 echo 'Pin: release c=main' >> /etc/apt/preferences.d/0-a
 echo 'Pin-Priority: 400' >> /etc/apt/preferences.d/0-a
-echo 'Package: *' > /etc/apt/preferences.d/0-b
-echo 'Pin: release c=ubuntu' >> /etc/apt/preferences.d/0-b
-echo 'Pin-Priority: 400' >> /etc/apt/preferences.d/0-b
+echo 'Package: *' >> /etc/apt/preferences.d/0-a
+echo 'Pin: release c=external' >> /etc/apt/preferences.d/0-a
+echo 'Pin-Priority: 390' >> /etc/apt/preferences.d/0-a
+echo 'Package: *' >> /etc/apt/preferences.d/0-a
+echo 'Pin: release c=ubuntu' >> /etc/apt/preferences.d/0-a
+echo 'Pin-Priority: 390' >> /etc/apt/preferences.d/0-a
 apt update -y
 echo "$(apt show nvidia-driver-$DRIVER 2>&1 | grep -v "does not have a stable" | grep Version: | head -n1 | cut -f2 -d":" | cut -f1,2,3 -d"." | cut -f1 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/DRIVER
 echo "$(apt show kernel-pika 2>&1 | grep -v "does not have a stable" | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/KERNEL
