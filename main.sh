@@ -3,7 +3,7 @@ DRIVER=545
 
 echo "$(apt show kernel-pika 2>&1 | grep -v "does not have a stable" | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/KERNEL
 
-apt show linux-modules-nvidia-$DRIVER-$(./linux-nvidia-modules/KERNEL) 2>&1 | grep -v "does not have a stable" | grep Version: | head -n1 | cut -f2 -d":" | tr -d ' ' > ./linux-nvidia-modules/pika_nvidia.txt
+apt show linux-modules-nvidia-$DRIVER-$(cat ./linux-nvidia-modules/KERNEL) 2>&1 | grep -v "does not have a stable" | grep Version: | head -n1 | cut -f2 -d":" | tr -d ' ' > ./linux-nvidia-modules/pika_nvidia.txt
 
 rm -rfv /etc/apt/preferences.d/*
 echo 'Pin: release c=external' > /etc/apt/preferences.d/0-a
