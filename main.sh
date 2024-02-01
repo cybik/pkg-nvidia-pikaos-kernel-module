@@ -20,20 +20,13 @@ echo "$(apt show nvidia-driver-$DRIVER 2>&1 | grep -v "does not have a stable" |
 
 cd ./linux-nvidia-modules
 
-VERSION="$(cat ./DRIVER_VERSION)-$(cat ./KERNEL)-100pika6"
+VERSION="$(cat ./DRIVER_VERSION)-$(cat ./KERNEL)-100pika5"
 
 echo -e "linux-nvidia-modules ("$VERSION") pikauwu; urgency=medium\n\n  * New Release\n\n -- Ward Nakchbandi <hotrod.master@hotmail.com> Sat, 01 Oct 2022 14:50:00 +0200" > debian/changelog
 
 if echo $VERSION | grep "$(cat ./pika_nvidia.txt)"
 then
   echo "driver already built"
-  exit 0
-fi
-
-
-if cat ./pika_nvidia.txt | grep "$(cat ./new_nvidia.txt)"
-then
-  echo "driver up to date"
   exit 0
 fi
 
