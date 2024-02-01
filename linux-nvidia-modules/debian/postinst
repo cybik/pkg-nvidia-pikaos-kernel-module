@@ -1,3 +1,17 @@
 #! /bin/sh
-depmod
+
+# Reset kernel modules
+rm -rfv /usr/lib/modules/*/modules.alias || true
+rm -rfv /usr/lib/modules/*/modules.builtin.alias.bin || true
+rm -rfv /usr/lib/modules/*/modules.dep || true
+rm -rfv /usr/lib/modules/*/modules.devname || true
+rm -rfv /usr/lib/modules/*/modules.symbols || true
+rm -rfv /usr/lib/modules/*/modules.alias.bin || true
+rm -rfv /usr/lib/modules/*/modules.builtin.bin || true
+rm -rfv /usr/lib/modules/*/modules.dep.bin || true
+rm -rfv /usr/lib/modules/*/modules.softdep || true
+rm -rfv /usr/lib/modules/*/modules.symbols.bin || true
+# Regenerate kernel module configs
+depmod -a
+# Update initramfs with new module config
 update-initramfs -c -k all
