@@ -1,5 +1,5 @@
 #! /bin/bash
-DRIVER=550
+DRIVER=535
 
 echo "$(apt show kernel-pika 2>&1 | grep -v "does not have a stable" | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/KERNEL
 
@@ -38,6 +38,48 @@ echo "cp -vf /usr/lib/pika/nvidia-$(cat ./DRIVER)-$(cat ./KERNEL)/pika-nvidia.co
 
 echo -e "DRIVER=$(cat ./DRIVER)\nKERNEL=$(cat ./KERNEL)\nVERSION=$(cat ./DRIVER_VERSION)\nMK_WORKDIR=$(env | grep -w "PWD" | cut -c5-)\nCARCH=x86_64" > ./Makefile
 cat ./Makefiletmp >> ./Makefile
+
+cat << EOF > ./debian/postinst
+#! /bin/sh
+
+# Reset kernel modules
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.alias || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.builtin.alias.bin || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.dep || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.devname || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.symbols || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.alias.bin || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.builtin.bin || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.dep.bin || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.softdep || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.symbols.bin || true
+# Regenerate kernel module configs
+depmod -a "$(cat ./KERNEL)"
+# Update initramfs with new module config
+update-initramfs -c -k all
+EOF
+
+
+cat << EOF > ./debian/postrm
+#! /bin/sh
+
+# Reset kernel modules
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.alias || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.builtin.alias.bin || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.dep || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.devname || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.symbols || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.alias.bin || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.builtin.bin || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.dep.bin || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.softdep || true
+rm -rfv /usr/lib/modules/"$(cat ./KERNEL)"/modules.symbols.bin || true
+# Regenerate kernel module configs
+depmod -a "$(cat ./KERNEL)"
+# Update initramfs with new module config
+update-initramfs -c -k all
+EOF
+
 
 DEBIAN_FRONTEND=noninteractive
 

@@ -1,11 +1,13 @@
-name: PikaOS Package Release (On Slow github servers)
+name: PikaOS Package Release (Build 545 module for latest kernel)
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+  schedule:
+    - cron: '25 2 * * *'
 
 jobs:
   build:
-    runs-on: ubuntu:latest
+    runs-on: self-hosted
     container:
       image: ghcr.io/pikaos-linux/pika-package-container:latest
       volumes:
@@ -34,7 +36,7 @@ jobs:
       run: apt-get update -y
     
     - name: Build Package
-      run: ./main.sh
+      run: ./545.sh
 
     - name: Release Package
       run: ./release.sh
