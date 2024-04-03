@@ -1,4 +1,4 @@
-name: PikaOS Package Release (Build 545 module for latest kernel)
+name: PikaOS Package Release (Build 535 module for latest kernel)
 
 on:
   workflow_dispatch:
@@ -36,7 +36,7 @@ jobs:
       run: apt-get update -y
     
     - name: Build Package
-      run: ./545.sh
+      run: ./535.sh
 
     - name: Release Package
       run: ./release.sh
