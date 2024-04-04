@@ -27,7 +27,7 @@ echo -e "linux-nvidia-modules ("$VERSION") pikauwu; urgency=medium\n\n  * New Re
 if echo $VERSION | grep "$(cat ./pika_nvidia.txt)"
 then
   echo "driver already built"
-  exit 0
+  #exit 0
 fi
 
 echo -e "Source: linux-nvidia-modules\nSection: graphics\nPriority: optional\nMaintainer: Ward Nakchbandi <hotrod.master@hotmail.com>\nStandards-Version: 4.6.1\nBuild-Depends: debhelper-compat (= 13), linux-image-$(cat ./KERNEL), linux-headers-$(cat ./KERNEL), dkms, fakeroot\nRules-Requires-Root: no\n\nPackage: linux-modules-nvidia-$DRIVER-$(cat ./KERNEL)\nArchitecture: linux-any\nDepends: linux-image-$(cat ./KERNEL), linux-headers-$(cat ./KERNEL), $(apt-cache show nvidia-dkms-$DRIVER | grep Depends: | head -n1 | cut -f2 -d":")\nConflicts: nvidia-6.5.0-pikaos-module-535, nvidia-$(cat ./KERNEL)-module-$DRIVER, "$(apt list 2>/dev/null | cut -d'/' -f1 | grep linux-modules-nvidia | grep $(cat ./KERNEL) | grep -v  linux-modules-nvidia-$DRIVER-$(cat ./KERNEL) | sed ':a;N;$!ba;s/\n/, /g')", nvidia-dkms-$DRIVER (= $(cat DRIVER_VERSION))\nProvides: linux-modules-nvidia-$(cat ./KERNEL), nvidia-dkms-$DRIVER (= $(cat DRIVER_VERSION))\nReplaces: nvidia-dkms-$DRIVER (= $(cat DRIVER_VERSION))\nDescription: Prebuilt Nvidia module for PikaOS kernel\n\nPackage: nvidia-pika-kernel-module-$DRIVER\nArchitecture: linux-any\nDepends: linux-modules-nvidia-$DRIVER-$(cat ./KERNEL) $(echo '(= ${binary:Version})')\nDescription: DKMS NVIDIA PLACEHOLDER" > ./debian/control
