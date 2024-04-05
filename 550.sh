@@ -1,9 +1,11 @@
 #! /bin/bash
 DRIVER=550
 
+DRIVER_BUILT=false
+
 echo "$(apt show kernel-pika 2>&1 | grep -v "does not have a stable" | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/KERNEL
 
-apt show linux-modules-nvidia-$DRIVER-$(cat ./linux-nvidia-modules/KERNEL) 2>&1 | grep -v "does not have a stable" | grep Version: | head -n1 | cut -f2 -d":" | tr -d ' ' > ./linux-nvidia-modules/pika_nvidia.txt
+apt show linux-modules-nvidia-$DRIVER-$(cat ./linux-nvidia-modules/KERNEL) 2>&1 | grep -v "does not have a stable" | grep Version: | head -n1 | cut -f2 -d":" | tr -d ' ' > ./linux-nvidia-modules/pika_nvidia.txt || export DRIVER_BUILT=false && echo "This driver has never been built for this kernel version before."
 
 rm -rfv /etc/apt/preferences.d/*
 echo 'Pin: release c=external' > /etc/apt/preferences.d/0-a
@@ -24,10 +26,13 @@ VERSION="$(cat ./DRIVER_VERSION)-$(cat ./KERNEL)-100pika7"
 
 echo -e "linux-nvidia-modules ("$VERSION") pikauwu; urgency=medium\n\n  * New Release\n\n -- Ward Nakchbandi <hotrod.master@hotmail.com> Sat, 01 Oct 2022 14:50:00 +0200" > debian/changelog
 
+if [[ $DRIVER_BUILT == true ]]
+then
 if echo $VERSION | grep "$(cat ./pika_nvidia.txt)"
 then
   echo "driver already built"
   exit 0
+fi
 fi
 
 echo -e "Source: linux-nvidia-modules\nSection: graphics\nPriority: optional\nMaintainer: Ward Nakchbandi <hotrod.master@hotmail.com>\nStandards-Version: 4.6.1\nBuild-Depends: debhelper-compat (= 13), linux-image-$(cat ./KERNEL), linux-headers-$(cat ./KERNEL), dkms, fakeroot\nRules-Requires-Root: no\n\nPackage: linux-modules-nvidia-$DRIVER-$(cat ./KERNEL)\nArchitecture: linux-any\nDepends: linux-image-$(cat ./KERNEL), linux-headers-$(cat ./KERNEL), $(apt-cache show nvidia-dkms-$DRIVER | grep Depends: | head -n1 | cut -f2 -d":")\nConflicts: nvidia-6.5.0-pikaos-module-535, nvidia-$(cat ./KERNEL)-module-$DRIVER, "$(apt list 2>/dev/null | cut -d'/' -f1 | grep linux-modules-nvidia | grep $(cat ./KERNEL) | grep -v  linux-modules-nvidia-$DRIVER-$(cat ./KERNEL) | sed ':a;N;$!ba;s/\n/, /g')", nvidia-dkms-$DRIVER (= $(cat DRIVER_VERSION))\nProvides: linux-modules-nvidia-$(cat ./KERNEL), nvidia-dkms-$DRIVER (= $(cat DRIVER_VERSION))\nReplaces: nvidia-dkms-$DRIVER (= $(cat DRIVER_VERSION))\nDescription: Prebuilt Nvidia module for PikaOS kernel\n\nPackage: nvidia-pika-kernel-module-$DRIVER\nArchitecture: linux-any\nDepends: linux-modules-nvidia-$DRIVER-$(cat ./KERNEL) $(echo '(= ${binary:Version})')\nDescription: DKMS NVIDIA PLACEHOLDER" > ./debian/control
