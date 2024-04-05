@@ -26,7 +26,7 @@ VERSION="$(cat ./DRIVER_VERSION)-$(cat ./KERNEL)-100pika7"
 
 echo -e "linux-nvidia-modules ("$VERSION") pikauwu; urgency=medium\n\n  * New Release\n\n -- Ward Nakchbandi <hotrod.master@hotmail.com> Sat, 01 Oct 2022 14:50:00 +0200" > debian/changelog
 
-if [[ $DRIVER_BUILT == false ]]
+if [[ $DRIVER_BUILT == true ]]
 then
 if echo $VERSION | grep "$(cat ./pika_nvidia.txt)"
 then
