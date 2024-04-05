@@ -1,7 +1,7 @@
 #! /bin/bash
 DRIVER=550
 
-DRIVER_BUILT=false
+DRIVER_BUILT=true
 
 echo "$(apt show kernel-pika 2>&1 | grep -v "does not have a stable" | grep Depends: | head -n1 | cut -f2 -d":" | cut -f1 -d"," | cut -f3,4 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/KERNEL
 
