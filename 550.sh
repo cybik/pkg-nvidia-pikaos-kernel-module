@@ -10,11 +10,11 @@ apt show linux-modules-nvidia-$DRIVER-$(cat ./linux-nvidia-modules/KERNEL) 2>&1 
 
 rm -rfv /etc/apt/preferences.d/*
 echo 'Package: *' >> /etc/apt/preferences.d/0-a
-echo 'Pin: release c=external' > /etc/apt/preferences.d/0-a
-echo 'Pin-Priority: 1000' >> /etc/apt/preferences.d/0-a
-echo 'Package: *' >> /etc/apt/preferences.d/0-a
 echo 'Pin: release c=ubuntu' >> /etc/apt/preferences.d/0-a
 echo 'Pin-Priority: 950' >> /etc/apt/preferences.d/0-a
+echo 'Package: *' >> /etc/apt/preferences.d/0-a
+echo 'Pin: release c=external' > /etc/apt/preferences.d/0-a
+echo 'Pin-Priority: 1000' >> /etc/apt/preferences.d/0-a
 apt update -y
 apt show nvidia-driver-$DRIVER 2>&1 | grep -v "does not have a stable" | grep Version: | head -n1 | cut -f2 -d":" | cut -f1,2,3 -d"." | cut -f1 -d"-" | tr -d ' ' > ./linux-nvidia-modules/new_nvidia.txt
 echo "$(apt show nvidia-driver-$DRIVER 2>&1 | grep -v "does not have a stable" | grep Version: | head -n1 | cut -f2 -d":" | cut -f1,2,3 -d"." | cut -f1 -d"-" | tr -d ' ')" > ./linux-nvidia-modules/DRIVER
